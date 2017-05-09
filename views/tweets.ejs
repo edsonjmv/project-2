@@ -1,9 +1,13 @@
 <h3>Tweets</h3>
 
 <section>
-  <% tweets.forEach(function(tweet) { %>
-    <img width="300" src="<%= tweet.picPath %>"/>
-    <p><%= tweet.content %></p>
-    <p>Favorites: <%= tweet.favorites %></p>
-  <% })%>
+
+    <% tweets.statuses.forEach(function(tweet) {
+       if(tweet.entities.media != null ) { %>
+      <p>User: <%= tweet.screen_name %></p>
+      <p><%= tweet.text %></p>
+      <p>Favorites: <%= tweet.favorite_count%></p>
+      <p>Retweets: <%= tweet.retweet_count%></p>
+      <img width="300" src="<%= tweet.entities.media[0].media_url %>"/>
+      <% }}) %>
 </section>
