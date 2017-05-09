@@ -1,9 +1,16 @@
 var express = require('express');
+var mongoose = require('mongoose');
+var Contest = require('../models/Contest');
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index');
+  Contest.find({},(err, contests) => {
+  if(err){
+    return error;
+  }
+  res.render('index', {contests});
+  })
 });
 
 module.exports = router;

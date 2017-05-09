@@ -1,0 +1,30 @@
+
+//    tweets.statuses.forEach(function(elem){
+//      console.log(elem.entities.media[0].media_url);
+//      const tweetPost = {
+//        user: elem.screen_name,
+//        content: elem.text,
+//        picPath: elem.entities.media[0].media_url,
+//        favorites: elem.favorite_count,
+//        retweets: elem.retweet_count
+//      }
+//      const tweet = new Tweet(tweetPost);
+//        tweet.save(function (err) {
+//          if (err) return handleError(err);
+//        });
+//
+//     //  console.log(elem);
+//     //  console.log('retweets -> ' + elem.retweet_count);
+//     //  console.log('favorites -> ' + elem.favorite_count);
+//    });
+//
+//
+// });
+
+<h3>Dashboard</h3>
+
+<section>
+  <% tweets.statuses.forEach(function(elem) { %>
+    <p><%= elem.text %></p>
+  <% })%>
+</section>

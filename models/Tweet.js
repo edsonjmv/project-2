@@ -3,12 +3,16 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const tweetSchema = new Schema({
-  user: String,
+  creator:{
+    type: Schema.Types.ObjectId,
+    ref:"User"
+  },
   content: String,
   picPath: String,
   favorites: Number,
   retweets: Number
 });
+
 
 tweetSchema.set('timestamps', true);
 
