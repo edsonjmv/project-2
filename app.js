@@ -9,6 +9,7 @@ const expressLayouts = require('express-ejs-layouts');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
+const passport = require('passport');
 
 mongoose.connect('mongodb://localhost/project2');
 
@@ -25,6 +26,8 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.set('layout', 'layouts/main-layout');
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(expressLayouts);
 app.locals.title = 'Project #2';
 
