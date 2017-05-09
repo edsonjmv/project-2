@@ -24,9 +24,13 @@
     "multer": "^1.3.0",
     "passport": "^0.3.2",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     "passport-local": "^1.0.0",
 >>>>>>> ba79cca7234a71ed8eccd93baa21997ba663dab0
+=======
+    "passport-local": "^1.0.0",
+>>>>>>> 932c09b00680875b3ab8e14cf17f8b3d47680480
     "serve-favicon": "~2.4.2",
     "twitter": "^1.7.0",
     "twitter-js-client": "0.0.5"

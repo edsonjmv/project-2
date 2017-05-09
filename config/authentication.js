@@ -8,6 +8,7 @@ const bcrypt = require('bcrypt');
 
 const User = require('../models/User.js');
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 module.exports = app => {
     app.use(session({
@@ -19,6 +20,14 @@ module.exports = app => {
     app.use(session({
         secret: 'ironfundingdev',
 >>>>>>> ba79cca7234a71ed8eccd93baa21997ba663dab0
+=======
+
+const Contest = require('../models/Contest.js');
+
+module.exports = app => {
+    app.use(session({
+        secret: 'ironfundingdev',
+>>>>>>> 932c09b00680875b3ab8e14cf17f8b3d47680480
         resave: false,
         saveUninitialized: true,
         store: new MongoStore({
