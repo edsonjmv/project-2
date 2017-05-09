@@ -1,6 +1,7 @@
 /* jshint esversion:6 */
 const passport = require('passport');
-const LocalStrategy = require('passport-local');
+const LocalStrategy = require('passport-local').Strategy;
+const bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
@@ -9,6 +10,7 @@ const bcrypt = require('bcrypt');
 const User = require('../models/User.js');
 
 const Contest = require('../models/Contest.js');
+
 
 module.exports = app => {
     app.use(session({
@@ -19,6 +21,7 @@ module.exports = app => {
             mongooseConnection: mongoose.connection
         })
     }));
+
 
     // NEW
     passport.serializeUser((user, cb) => {
@@ -40,6 +43,7 @@ module.exports = app => {
         },
         (req, username, password, next) => {
             // To avoid race conditions
+            console.log(req);
             process.nextTick(() => {
                 User.findOne({
                     'username': username
@@ -72,22 +76,20 @@ module.exports = app => {
             });
         }));
 
-passport.use('local-login', new LocalStrategy((username, password, next) => {
-  User.findOne({ username }, (err, user) => {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return next(null, false, { message: "Incorrect username" });
-    }
-    if (!bcrypt.compareSync(password, user.password)) {
-      return next(null, false, { message: "Incorrect password" });
-    }
+    // passport.use('local-login', new LocalStrategy((username, password, next) => {
+    //   User.findOne({ username }, (err, user) => {
+    //     if (err) {
+    //       return next(err);
+    //     }
+    //     if (!user) {
+    //       return next(null, false, { message: "Incorrect username" });
+    //     }
+    //     if (!bcrypt.compareSync(password, user.password)) {
+    //       return next(null, false, { message: "Incorrect password" });
+    //     }
+    //
+    //     return next(null, user);
+    //   });
+    // }));
 
-    return next(null, user);
-  });
-}));
-
-    app.use(passport.initialize());
-    app.use(passport.session());
 };
