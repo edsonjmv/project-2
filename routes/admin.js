@@ -6,11 +6,14 @@ const User = require('../models/User');
 const Contest = require('../models/Contest');
 const upload = multer({ dest: './public/uploads/' });
 const mongoose = require('mongoose');
+const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 
 const adminRoutes = express.Router();
 
-adminRoutes.get('/new-contests', function(req, res, next) {
-  res.render('new-contests');
+adminRoutes.get('/new-contests', ensureLoggedIn('/login'), function(req, res, next) {
+  console.log(req.session);
+  console.log(req.user);
+  res.render('new-contests', { user: req.currentUser });
 });
 
 adminRoutes.post('/new-contests', upload.single('photo'), (req, res, next) => {

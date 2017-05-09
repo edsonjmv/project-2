@@ -6,6 +6,7 @@ const User = require('../models/User');
 const authRoutes = express.Router();
 const session = require('express-session');
 const mongoose = require('mongoose');
+const passport = require('passport');
 
 
 authRoutes.get('/signup', (req, res, next) => {
@@ -72,7 +73,7 @@ authRoutes.get('/login', (req, res, next) => {
   });
 });
 
-authRoutes.post('/login', (req, res, next) => {
+authRoutes.post('/login', passport.authenticate('local'), (req, res, next) => {
   const emailInput = req.body.email;
   const passwordInput = req.body.password;
 

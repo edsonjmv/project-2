@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const User = require('../models/User.js');
+
 const Contest = require('../models/Contest.js');
 
 module.exports = app => {
