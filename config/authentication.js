@@ -7,10 +7,18 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const User = require('../models/User.js');
+<<<<<<< HEAD
 
 module.exports = app => {
     app.use(session({
         secret: 'project-2',
+=======
+const Contest = require('../models/Contest.js');
+
+module.exports = app => {
+    app.use(session({
+        secret: 'ironfundingdev',
+>>>>>>> ba79cca7234a71ed8eccd93baa21997ba663dab0
         resave: false,
         saveUninitialized: true,
         store: new MongoStore({
