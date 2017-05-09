@@ -6,9 +6,11 @@ const User = require('../models/User');
 const authRoutes = express.Router();
 const session = require('express-session');
 const mongoose = require('mongoose');
+
 const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 const authorizeContest = require('../middleware/contest-authorization');
 const ensureLogin = require('connect-ensure-login');
+
 const passport = require('passport');
 
 authRoutes.get('/signup', ensureLoggedOut(), (req, res, next) => {
@@ -119,6 +121,7 @@ authRoutes.post('/login', ensureLoggedOut(), passport.authenticate('local-login'
 authRoutes.get("/logout", ensureLogin.ensureLoggedIn(), (req, res) => {
   req.logout();
   res.redirect("/login");
+
 });
 
 module.exports = authRoutes;
