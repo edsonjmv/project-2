@@ -3,7 +3,6 @@ const express = require('express');
 const session = require('express-session');
 const multer  = require('multer');
 const User = require('../models/User');
-const Picture = require('../models/Picture');
 const upload = multer({ dest: './public/uploads/' });
 const mongoose = require('mongoose');
 
