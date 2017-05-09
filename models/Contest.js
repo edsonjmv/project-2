@@ -7,8 +7,13 @@ const contestSchema = new Schema({
   hashtag: String,
   finalDate: String,
   picPath: String,
-  prize: String
-}, {
+  prize: String,
+  creator:{
+    type: Schema.Types.ObjectId,
+    ref:"User"
+   }
+  },
+  {
   timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
 });
 
