@@ -1,3 +1,5 @@
+<br><br>
+
 <h3>Dashboard</h3>
 
 
@@ -5,8 +7,12 @@
 
     <% contests.forEach(function(contest) { %>
       <div  class="col-md-4">
+      <a href="<%= contest._id %>">Go to this contest</a>
       <p>Name: <%= contest.name %></p>
       <p>Hashtag: <%= contest.hashtag %></p>
       <img width="300" src="<%= contest.picPath %>"/>
+      <form action="/admin/<%= contest._id %>/delete" method="POST">
+        <button type="submit">Delete Contest</button>
+      </form>
       </div>
-      <% }) %>
+      <% }); %>
