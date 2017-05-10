@@ -6,13 +6,11 @@ const User = require('../models/User');
 const Contest = require('../models/Contest');
 const upload = multer({ dest: './public/uploads/' });
 const mongoose = require('mongoose');
-<<<<<<< HEAD
 const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
-=======
 
-const { ensureLoggedIn }  = require('connect-ensure-login');
+
 const authorizeContest = require('../middleware/contest-authorization');
->>>>>>> 677054f5f84c85108133afba893ac04bff6f7db8
+
 
 const adminRoutes = express.Router();
 
