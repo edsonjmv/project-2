@@ -46,4 +46,5 @@ adminRoutes.post('/new-contests', upload.single('photo'), (req, res, next) => {
     });
 });
 
+
 module.exports = adminRoutes;
