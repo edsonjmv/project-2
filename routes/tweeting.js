@@ -62,11 +62,9 @@ tweetRoutes.get('/contest/:hashtag', function(req, res, next) {
   let hash = '#'+req.params.hashtag;
 
   client.get('https://api.twitter.com/1.1/search/tweets.json', {q: hash, result_type: 'mixed', count: 100}, function(error, tweets, response) {
-    let sorted = tweets.statuses.sort();
     // .exec(function(err, tweets){
       res.render('tweets', {tweets});
     // });
-      console.log(sorted);
   });
 });
 
