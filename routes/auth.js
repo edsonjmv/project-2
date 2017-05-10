@@ -1,122 +1,76 @@
 /*jshint esversion: 6*/
-const express = require('express');
-const bcrypt = require('bcrypt');
-const bcryptSalt = 10;
-const User = require('../models/User');
+// routes/auth-routes.js
+const express    = require("express");
 const authRoutes = express.Router();
-const session = require('express-session');
-const mongoose = require('mongoose');
+
+// User model
+const User       = require("../models/User");
+const passport = require("passport");
+// Bcrypt to encrypt passwords
+const bcrypt     = require("bcrypt");
+const bcryptSalt = 10;
+const ensureLogin = require("connect-ensure-login");
 const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
-const authorizeContest = require('../middleware/contest-authorization');
-const ensureLogin = require('connect-ensure-login');
-const passport = require('passport');
 
-authRoutes.get('/signup', ensureLoggedOut(), (req, res, next) => {
-  res.render('auth/signup', {
-    errorMessage: ''
+authRoutes.get("/signup", (req, res, next) => {
+  res.render("auth/signup");
+});
+
+authRoutes.post("/signup", (req, res, next) => {
+  const username = req.body.username;
+  const password = req.body.password;
+
+  if (username === "" || password === "") {
+    res.render("auth/signup", { message: "Indicate username and password" });
+    return;
+  }
+
+  User.findOne({ username }, "username", (err, user) => {
+    if (user !== null) {
+      res.render("auth/signup", { message: "The username already exists" });
+      return;
+    }
+
+    const salt     = bcrypt.genSaltSync(bcryptSalt);
+    const hashPass = bcrypt.hashSync(password, salt);
+
+    const newUser = User({
+      username: username,
+      password: hashPass
+    });
+
+    newUser.save((err) => {
+      if (err) {
+        res.render("auth/signup", { message: "Something went wrong" });
+      } else {
+        res.redirect("/");
+      }
+    });
   });
 });
 
-authRoutes.post('/signup', passport.authenticate('local-signup',{
-  successRedirect: '/',
-  failureRedirect: '/signup'
-}));
-// }(req, res, next) => {
-//   const firstNameInput = req.body.firstName;
-//   const lastNameInput = req.body.lastName;
-//   const emailInput = req.body.email;
-//   const passwordInput = req.body.password;
-//
-//   if (emailInput === '' || passwordInput === '') {
-//     res.render('auth/signup', {
-//       errorMessage: 'Enter both email and password to sign up.'
-//     });
-//     return;
-//   }
-//
-//   User.findOne({
-//     email: emailInput
-//   }, '_id', (err, existingUser) => {
-//     if (err) {
-//       next(err);
-//       return;
-//     }
-//
-//     if (existingUser !== null) {
-//       res.render('auth/signup', {
-//         errorMessage: `The email ${emailInput} is already in use.`
-//       });
-//       return;
-//     }
-//
-//     const salt = bcrypt.genSaltSync(bcryptSalt);
-//     const hashedPass = bcrypt.hashSync(passwordInput, salt);
-//
-//     const userSubmission = {
-//       firstName: firstNameInput,
-//       lastName: lastNameInput,
-//       email: emailInput,
-//       password: hashedPass
-//     };
-//
-//     const user = new User(userSubmission);
-//
-//     user.save((err) => {
-//       if (err) {
-//         res.render('auth/signup', {
-//           errorMessage: 'Something went wrong. Try again later.'
-//         });
-//         return;
-//       }
-//       res.redirect('/login');
-//     });
-//   });
-// });
-
-authRoutes.get('/login', ensureLoggedOut(), (req, res, next) => {
-  res.render('auth/login', {
-    errorMessage: ''
-  });
+authRoutes.get("/login", ensureLoggedOut(), (req, res, next) => {
+  res.render("auth/login", { "message": req.flash("error") });
 });
 
-authRoutes.post('/login', ensureLoggedOut(), passport.authenticate('local-login',{
-  successRedirect: '/',
-  failureRedirect: '/login'
+authRoutes.post("/login", ensureLoggedOut(), passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
 }));
-// }(req, res, next) => {
-//   const emailInput = req.body.email;
-//   const passwordInput = req.body.password;
-//
-//   if (emailInput === '' || passwordInput === '') {
-//     res.render('auth/login', {
-//       errorMessage: 'Enter both email and password to log in.'
-//     });
-//     return;
-//   }
-//
-//   User.findOne({
-//     email: emailInput
-//   }, (err, user) => {
-//     if (err || user === null) {
-//       res.render('auth/login', {
-//         errorMessage: `There isn't an account with email ${emailInput}.`
-//       });
-//       return;
-//     }
-//
-//     if (!bcrypt.compareSync(passwordInput, user.password)) {
-//       res.render('auth/login', {
-//         errorMessage: 'Invalid password.'
-//       });
-//       return;
-//     }
-//
-//     req.session.currentUser = user;
-//     res.redirect('/');
-//   });
-// });
 
-authRoutes.get("/logout", ensureLogin.ensureLoggedIn(), (req, res) => {
+authRoutes.get('/auth/twitter', passport.authenticate('twitter'));
+
+authRoutes.get('/auth/twitter/callback',
+  passport.authenticate('twitter', { successRedirect: '/',
+                                     failureRedirect: '/login' }));
+
+authRoutes.get("interact/profile", ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render("profile", { user: req.user });
+});
+
+authRoutes.get("/logout", ensureLoggedIn('auth/login'), (req, res) => {
   req.logout();
   res.redirect("/login");
 });

@@ -1,20 +1,17 @@
 <div class="form">
   <div id="login">
     <h1>Welcome Back!</h1>
-    <% if (errorMessage) { %>
-      <p class="error-message" style="text-align: center">
-        <%= errorMessage %>
-      </p>
-      <% } %>
+
         <form action="/login" method="post">
           <div class="field-wrap">
-            <input type="email" placeholder="email" name="email" />
+            <input type="text" placeholder="username" name="username" />
           </div>
           <div class="field-wrap">
             <input type="password" placeholder="password" name="password" />
           </div>
           <button class="button button-block" />Log In</button>
         </form>
+        <a href="/auth/twitter">Sign in with Twitter</a>
         <br>
         <p style='float: right;'>
           Create an account:

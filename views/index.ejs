@@ -1,9 +1,10 @@
 <br><br>
 <p> Welcome to <%= title %>. </p>
 
-<% if (isUserLoggedIn) { %>
-  <p> Hello, <%= currentUserInfo.firstName + ' ' + currentUserInfo.lastName %>. </p>
-<% } %>
+<br><br><br><br><br>
+<% if(user){ %>
+          <div>
+            <p>Hi <%= user.username %>. You are now logged in!</p>
 
-
-<p> <%= contests %></p>
+          </div>
+        <% } %>

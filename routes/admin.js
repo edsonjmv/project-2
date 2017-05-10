@@ -6,12 +6,12 @@ const User = require('../models/User');
 const Contest = require('../models/Contest');
 const upload = multer({ dest: './public/uploads/' });
 const mongoose = require('mongoose');
-const { ensureLoggedIn }  = require('connect-ensure-login');
-const authorizeContest = require('../middleware/contest-authorization');
-const adminRoutes = express.Router();
-const ensureLogin = require('connect-ensure-login');
+const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 
-adminRoutes.get('/new-contests', ensureLogin.ensureLoggedIn(), (req, res, next) =>{
+const adminRoutes = express.Router();
+
+adminRoutes.get('/new-contests', ensureLoggedIn(), function(req, res, next) {
+  console.log(req.user.username);
   res.render('new-contests');
 });
 
@@ -27,10 +27,10 @@ adminRoutes.post('/new-contests', upload.single('photo'), (req, res, next) => {
     hashtag: hashtagInput,
     finalDate: dateInput,
     picPath: picInput,
-    prize: prizeInput,
+    prize: prizeInput
   };
 
-  const constest = new Contest(contestSubmission);
+    const constest = new Contest(contestSubmission);
 
     constest.save((err) => {
       if (err) {
@@ -39,7 +39,7 @@ adminRoutes.post('/new-contests', upload.single('photo'), (req, res, next) => {
         });
         return;
       }
-      res.redirect('/');
+      res.redirect('/dashboard');
     });
 });
 

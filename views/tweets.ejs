@@ -4,10 +4,13 @@
 
     <% tweets.statuses.forEach(function(tweet) {
        if(tweet.entities.media != null ) { %>
-      <p>User: <%= tweet.screen_name %></p>
-      <p><%= tweet.text %></p>
-      <p>Favorites: <%= tweet.favorite_count%></p>
-      <p>Retweets: <%= tweet.retweet_count%></p>
-      <img width="300" src="<%= tweet.entities.media[0].media_url %>"/>
+         <div  class="col-md-4">
+           <p>User: <%= tweet.screen_name %></p>
+           <p><%= tweet.text %></p>
+           <p>Favorites: <%= tweet.favorite_count%></p>
+           <p>Retweets: <%= tweet.retweet_count%></p>
+           <img width="300" src="<%= tweet.entities.media[0].media_url %>"/>
+         </div>
+
       <% }}) %>
 </section>
