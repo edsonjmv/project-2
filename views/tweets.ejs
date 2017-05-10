@@ -7,7 +7,7 @@
            <p><%= tweet.text %></p>
            <p>Favorites: <%= tweet.favorite_count%></p>
            <p>Retweets: <%= tweet.retweet_count%></p>
-           <img width="300" src="<%= tweet.entities.media[0].media_url %>"/>
+           <img src="<%= tweet.entities.media[0].media_url %>"/>
          </div>
 
       <% }}) %>

@@ -12,7 +12,7 @@ const authorizeContest = require('../middleware/contest-authorization');
 
 const adminRoutes = express.Router();
 
-adminRoutes.get('/new-contests', ensureLoggedIn(), function(req, res, next) {
+adminRoutes.get('admin/new-contests', ensureLoggedIn(), function(req, res, next) {
   console.log(req.user.username);
   res.render('new-contests');
 });

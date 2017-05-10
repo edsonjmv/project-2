@@ -2,7 +2,6 @@
 // routes/auth-routes.js
 const express    = require("express");
 const authRoutes = express.Router();
-<<<<<<< HEAD
 
 // User model
 const User       = require("../models/User");
@@ -12,16 +11,12 @@ const bcrypt     = require("bcrypt");
 const bcryptSalt = 10;
 const ensureLogin = require("connect-ensure-login");
 const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
-=======
 const session = require('express-session');
 const mongoose = require('mongoose');
 
-const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
-const authorizeContest = require('../middleware/contest-authorization');
-const ensureLogin = require('connect-ensure-login');
 
-const passport = require('passport');
->>>>>>> 677054f5f84c85108133afba893ac04bff6f7db8
+const authorizeContest = require('../middleware/contest-authorization');
+
 
 authRoutes.get("/signup", (req, res, next) => {
   res.render("auth/signup");
