@@ -91,12 +91,12 @@ passport.use(new TwitterStrategy({
   }
 ));
 
+app.use('/admin', adminRoutes);
 app.use('/', index);
 app.use('/users', users);
 app.use('/', authRoutes);
-app.use('/', interactRoutes);
+app.use('/interact', interactRoutes);
 app.use('/', tweetRoutes);
-app.use('/', adminRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

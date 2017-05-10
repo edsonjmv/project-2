@@ -1,0 +1,27 @@
+<br><br>
+
+<h1>Hi</h1>
+<div class="container constest-container">
+  <div class="row">
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-10">
+      <h1><%= contest.name %></h1>
+    </div>
+  </div>
+</div>
+
+<h3>Tweets</h3>
+
+    <% tweets.statuses.forEach(function(tweet) {
+       if(tweet.entities.media != null ) { %>
+         <div  class="col-md-4">
+           <p>User: <%= tweet.screen_name %></p>
+           <p><%= tweet.text %></p>
+           <p>Favorites: <%= tweet.favorite_count%></p>
+           <p>Retweets: <%= tweet.retweet_count%></p>
+           <img width="300" src="<%= tweet.entities.media[0].media_url %>"/>
+         </div>
+
+      <% }}) %>
+</section>

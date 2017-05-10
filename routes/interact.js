@@ -6,6 +6,19 @@ const User = require('../models/User');
 const upload = multer({ dest: './public/uploads/' });
 const mongoose = require('mongoose');
 const Contest = require('../models/Contest');
+const Twitter = require('twitter');
+require("dotenv").config();
+const TWITTER_CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY;
+const TWITTER_CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET;
+const TWITTER_ACCESS_TOKEN_KEY = process.env.TWITTER_ACCESS_TOKEN_KEY;
+const TWITTER_ACCESS_TOKEN_SECRET = process.env.TWITTER_ACCESS_TOKEN_SECRET;
+
+const client = new Twitter({
+  consumer_key: TWITTER_CONSUMER_KEY,
+  consumer_secret: TWITTER_CONSUMER_SECRET,
+  access_token_key: TWITTER_ACCESS_TOKEN_KEY,
+  access_token_secret: TWITTER_ACCESS_TOKEN_SECRET
+});
 
 
 
@@ -35,5 +48,18 @@ interactRoutes.get('/dashboard', function(req, res, next) {
   });  // });
 });
 
+
+interactRoutes.get('/:id', (req, res, next) => {
+  Contest.findById(req.params.id).populate('_creator').exec( (err, contest) => {
+    if (err){ return next(err); }
+    console.log("show contest");
+    console.log(contest);
+
+    let hash = contest.hashtag;
+      client.get('https://api.twitter.com/1.1/search/tweets.json', {q: hash, result_type: 'mixed', count: 100}, function(error, tweets, response) {
+        res.render('show', {contest, tweets});
+      });
+  });
+});
 
 module.exports = interactRoutes;
