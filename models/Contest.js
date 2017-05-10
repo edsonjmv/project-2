@@ -5,7 +5,7 @@ const Schema   = mongoose.Schema;
 const contestSchema = new Schema({
   name: String,
   hashtag: String,
-  finalDate: String,
+  finalDate: Date,
   picPath: String,
   prize: String,
   creator:{

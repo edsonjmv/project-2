@@ -55,8 +55,9 @@ interactRoutes.get('/:id', (req, res, next) => {
     console.log("show contest");
     console.log(contest);
 
-    let hash = contest.hashtag;
+    let hash = '#' + contest.hashtag;
       client.get('https://api.twitter.com/1.1/search/tweets.json', {q: hash, result_type: 'mixed', count: 100}, function(error, tweets, response) {
+        
         res.render('show', {contest, tweets});
       });
   });
