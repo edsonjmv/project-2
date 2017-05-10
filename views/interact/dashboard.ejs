@@ -1,1 +1,12 @@
 <h3>Dashboard</h3>
+
+
+
+
+    <% contests.forEach(function(contest) { %>
+      <div  class="col-md-4">
+      <p>Name: <%= contest.name %></p>
+      <p>Hashtag: <%= contest.hashtag %></p>
+      <img width="300" src="<%= contest.picPath %>"/>
+      </div>
+      <% }) %>

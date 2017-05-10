@@ -7,10 +7,13 @@
     "dev": "nodemon ./bin/www"
   },
   "dependencies": {
-    "bcrpyt": "^2.0.0",
     "bcrypt": "^1.0.2",
     "body-parser": "~1.17.1",
     "connect-ensure-login": "^0.1.1",
+<<<<<<< HEAD
+    "connect-flash": "^0.1.1",
+=======
+>>>>>>> 677054f5f84c85108133afba893ac04bff6f7db8
     "connect-mongo": "^1.3.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
@@ -23,7 +26,7 @@
     "morgan": "~1.8.1",
     "multer": "^1.3.0",
     "passport": "^0.3.2",
-    "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.4",
     "serve-favicon": "~2.4.2",
     "twitter": "^1.7.0",
     "twitter-js-client": "0.0.5"

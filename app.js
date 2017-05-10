@@ -9,14 +9,16 @@ const expressLayouts = require('express-ejs-layouts');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
-const passport = require('passport');
-mongoose.connect('mongodb://localhost/project2');
-const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require('bcrypt');
+const bcrypt        = require("bcrypt");
+const passport      = require("passport"), TwitterStrategy = require('passport-twitter').Strategy;
+const LocalStrategy = require("passport-local").Strategy;
+const User       = require("./models/User.js");
+const flash = require("connect-flash");
 
-const User = require('./models/User.js');
+mongoose.connect('mongodb://localhost/project2');
 
 const index = require('./routes/index');
+const users = require('./routes/users');
 const authRoutes = require('./routes/auth');
 const interactRoutes = require('./routes/interact');
 const tweetRoutes = require('./routes/tweeting');
@@ -33,98 +35,68 @@ app.use(passport.session());
 app.use(expressLayouts);
 app.locals.title = 'Project #2';
 
-
-app.use(function (req, res, next) {
-    res.locals.user = req.user;
-    next();
-});
-
-app.use(session({
-    secret: 'ironfundingdev',
-    resave: false,
-    saveUninitialized: true,
-    store: new MongoStore({
-        mongooseConnection: mongoose.connection
-    })
-}));
-
-
-// NEW
-passport.serializeUser((user, cb) => {
-    cb(null, user.id);
-});
-
-passport.deserializeUser((id, cb) => {
-    User.findById(id, (err, user) => {
-        if (err) {
-            return cb(err);
-        }
-        cb(null, user);
-    });
-});
-
-// Signing Up
-passport.use('local-signup', new LocalStrategy({
-        passReqToCallback: true
-    },
-    (req, username, password, next) => {
-        process.nextTick(() => {
-            User.findOne({
-                'username': username
-            }, (err, user) => {
-                if (err) {
-                    return next(err);
-                }
-                if (user) {
-                    return next(null, false);
-                } else {
-                    // Destructure the body
-                    const { username, email, lastName, password } = req.body;
-                    const hashPass = bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-                    const newUser = new User({
-                        firstName : username,
-                        email,
-                        lastName,
-                        password: hashPass
-                    });
-
-                    newUser.save((err) => {
-                        if (err) {
-                            next(err);
-                        }
-                        return next(null, newUser);
-                    });
-                }
-            });
-        });
-    }));
-
-    app.use(passport.initialize());
-    app.use(passport.session());
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(flash());
+
+app.use(session({
+  secret: 'Project #2',
+  resave: true,
+  saveUninitialized: true,
+  cookie: { maxAge: 60000 },
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60 // 1 day
+  })
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) { return done(null, false); }
+      return done(null, user);
+    });
+  }
+));
+
+passport.serializeUser(function(user, done) {
+    done(null, user._id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+passport.use(new TwitterStrategy({
+    consumerKey: 'LGk2jjD858slF56Jds2k3Mjzv',
+    consumerSecret: 'rAC0UaqZDMbxYUvvVFNvzppxJrvdx5TqvIIKgMvxTPdStT9AKq',
+    callbackURL: "http://localhost:3000"
+  },
+  function(token, tokenSecret, profile, done) {
+    User.findOrCreate({ username: username }, function(err, user) {
+      if (err) { return done(err); }
+      done(null, user);
+    });
+  }
+));
 
 app.use('/', index);
+app.use('/users', users);
 app.use('/', authRoutes);
 app.use('/', interactRoutes);
 app.use('/', tweetRoutes);
 app.use('/', adminRoutes);
-
-
-// app.use((req, res, next) => {
-//   if (req.session.currentUser) {
-//     res.locals.currentUserInfo = req.session.currentUser;
-//     res.locals.isUserLoggedIn = true;
-//   } else {
-//     res.locals.isUserLoggedIn = false;
-//   }
-//   next();
-// });
-
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,18 +1,7 @@
-<div class="form">
-  <div id="upload">
-    <h1>Upload your photo</h1>
-        <form action="/upload" method="post" enctype="multipart/form-data">
-          <div class="field-wrap">
-            <input type="text" name="name">
+<br><br><br><br><br>
+<% if(user){ %>
+          <div>
+            <p>Profile of <%= user.username %></p>
+
           </div>
-          <div class="field-wrap">
-            <input type="file" name="photo">
-          </div>
-          <div class="field-wrap">
-            <input type="submit" value="Save">
-          </div>
-          <button type="submit" class="button button-block" />Upload photo</button>
-        </form>
-  </div>
-</div>
-<!-- /form -->
+        <% } %>

@@ -6,14 +6,18 @@ const User = require('../models/User');
 const Contest = require('../models/Contest');
 const upload = multer({ dest: './public/uploads/' });
 const mongoose = require('mongoose');
+<<<<<<< HEAD
+const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
+=======
 
 const { ensureLoggedIn }  = require('connect-ensure-login');
 const authorizeContest = require('../middleware/contest-authorization');
+>>>>>>> 677054f5f84c85108133afba893ac04bff6f7db8
 
 const adminRoutes = express.Router();
-const ensureLogin = require('connect-ensure-login');
 
-adminRoutes.get('/new-contests', ensureLogin.ensureLoggedIn(), (req, res, next) =>{
+adminRoutes.get('/new-contests', ensureLoggedIn(), function(req, res, next) {
+  console.log(req.user.username);
   res.render('new-contests');
 });
 
@@ -29,10 +33,10 @@ adminRoutes.post('/new-contests', upload.single('photo'), (req, res, next) => {
     hashtag: hashtagInput,
     finalDate: dateInput,
     picPath: picInput,
-    prize: prizeInput,
+    prize: prizeInput
   };
 
-  const constest = new Contest(contestSubmission);
+    const constest = new Contest(contestSubmission);
 
     constest.save((err) => {
       if (err) {
@@ -41,7 +45,7 @@ adminRoutes.post('/new-contests', upload.single('photo'), (req, res, next) => {
         });
         return;
       }
-      res.redirect('/');
+      res.redirect('/dashboard');
     });
 });
 
