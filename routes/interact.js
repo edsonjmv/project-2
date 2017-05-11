@@ -1,7 +1,7 @@
 /*jshint esversion: 6*/
 const express = require('express');
 const session = require('express-session');
-const multer  = require('multer');
+const multer = require('multer');
 const User = require('../models/User');
 const upload = multer({ dest: './public/uploads/' });
 const mongoose = require('mongoose');
@@ -12,7 +12,7 @@ const TWITTER_CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY;
 const TWITTER_CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET;
 const TWITTER_ACCESS_TOKEN_KEY = process.env.TWITTER_ACCESS_TOKEN_KEY;
 const TWITTER_ACCESS_TOKEN_SECRET = process.env.TWITTER_ACCESS_TOKEN_SECRET;
-
+const interactRoutes = express.Router();
 const client = new Twitter({
   consumer_key: TWITTER_CONSUMER_KEY,
   consumer_secret: TWITTER_CONSUMER_SECRET,
@@ -20,12 +20,10 @@ const client = new Twitter({
   access_token_secret: TWITTER_ACCESS_TOKEN_SECRET
 });
 
-
-
-const interactRoutes = express.Router();
-
 interactRoutes.get('/profile', function(req, res, next) {
-  res.render('interact/profile', { user: req.user });
+  res.render('interact/profile', {
+    user: req.user
+  });
 });
 
 // interactRoutes.post('/upload', upload.single('photo'), function(req, res){
@@ -44,22 +42,35 @@ interactRoutes.get('/profile', function(req, res, next) {
 interactRoutes.get('/dashboard', function(req, res, next) {
   // Picture.find((err, pictures) => {
   Contest.find((err, contests) => {
-    res.render('interact/dashboard', {contests});
-  });  // });
+    res.render('interact/dashboard', {
+      contests
+    });
+  }); // });
 });
 
-
 interactRoutes.get('/:id', (req, res, next) => {
-  Contest.findById(req.params.id).populate('_creator').exec( (err, contest) => {
-    if (err){ return next(err); }
-    console.log("show contest");
-    console.log(contest);
-
+  Contest.findById(req.params.id).populate('_creator').exec((err, contest) => {
+    if (err) {
+      return next(err);
+    }
     let hash = '#' + contest.hashtag;
-      client.get('https://api.twitter.com/1.1/search/tweets.json', {q: hash, result_type: 'mixed', count: 100}, function(error, tweets, response) {
-        
-        res.render('show', {contest, tweets});
+    client.get('https://api.twitter.com/1.1/search/tweets.json', {
+      q: hash,
+      result_type: 'mixed',
+      count: 100
+    }, function(error, tweets, response) {
+      var status = tweets.statuses;
+      var text = "";
+      var newArray = [];
+
+      status.sort(function(a, b) {
+        return parseFloat(b.favorite_count) - parseFloat(a.favorite_count);
       });
+      res.render('show', {
+        contest,
+        tweets
+      });
+    });
   });
 });
 

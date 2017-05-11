@@ -9,10 +9,10 @@ const expressLayouts = require('express-ejs-layouts');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
-const bcrypt        = require("bcrypt");
-const passport      = require("passport"), TwitterStrategy = require('passport-twitter').Strategy;
+const bcrypt = require("bcrypt");
+const passport = require("passport"),TwitterStrategy = require('passport-twitter').Strategy;
 const LocalStrategy = require("passport-local").Strategy;
-const User       = require("./models/User.js");
+const User = require("./models/User.js");
 const flash = require("connect-flash");
 
 mongoose.connect('mongodb://localhost/project2');
@@ -21,12 +21,10 @@ const index = require('./routes/index');
 const users = require('./routes/users');
 const authRoutes = require('./routes/auth');
 const interactRoutes = require('./routes/interact');
-const tweetRoutes = require('./routes/tweeting');
 const adminRoutes = require('./routes/admin');
 
 const app = express();
 
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.set('layout', 'layouts/main-layout');
@@ -35,11 +33,11 @@ app.use(passport.session());
 app.use(expressLayouts);
 app.locals.title = 'Project #2';
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(flash());
@@ -48,7 +46,9 @@ app.use(session({
   secret: 'Project #2',
   resave: true,
   saveUninitialized: true,
-  cookie: { maxAge: 60000 },
+  cookie: {
+    maxAge: 60000
+  },
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
     ttl: 24 * 60 * 60 // 1 day
@@ -60,16 +60,22 @@ app.use(passport.session());
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    User.findOne({ username: username }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) { return done(null, false); }
+    User.findOne({
+      username: username
+    }, function(err, user) {
+      if (err) {
+        return done(err);
+      }
+      if (!user) {
+        return done(null, false);
+      }
       return done(null, user);
     });
   }
 ));
 
 passport.serializeUser(function(user, done) {
-    done(null, user._id);
+  done(null, user._id);
 });
 
 passport.deserializeUser(function(id, done) {
@@ -84,19 +90,31 @@ passport.use(new TwitterStrategy({
     callbackURL: "http://localhost:3000"
   },
   function(token, tokenSecret, profile, done) {
-    User.findOrCreate({ username: username }, function(err, user) {
-      if (err) { return done(err); }
+    User.findOrCreate({
+      username: username
+    }, function(err, user) {
+      if (err) {
+        return done(err);
+      }
       done(null, user);
     });
   }
 ));
+
+app.use((req, res, next) => {
+  if (typeof(req.user) !== "undefined") {
+    res.locals.userSignedIn = true;
+  } else {
+    res.locals.userSignedIn = false;
+  }
+  next();
+});
 
 app.use('/admin', adminRoutes);
 app.use('/', index);
 app.use('/users', users);
 app.use('/', authRoutes);
 app.use('/interact', interactRoutes);
-app.use('/', tweetRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

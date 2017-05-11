@@ -1,6 +1,3 @@
-// @import 'main';
-// @import 'form';
-
 $background-color: #315989;
 $white: #fff;
 $green-link: #1ab188;
@@ -9,11 +6,16 @@ $text-back: #a0b3b0;
 $green-dark: darken($green-link, 10%);
 $black: #000;
 $gray: #a9a9a9;
+$shadow1: rgba(0, 0, 0, .2);
+$shadow2: rgba(0, 0, 0, .19);
+$light-blue: #29cce5;
+$link-back: ('https://d2k1ftgv7pobq7.cloudfront.net/meta/p/res/images/d84b3c6b1f07d701acb1a153002f7e6a/usecases-bg.jpg');
 
 body {
   background-color: $background-color;
   color: $white;
   font: 14px 'Titillium Web', Helvetica, Arial, sans-serif;
+  padding-top: 50px;
 }
 
 * {
@@ -113,7 +115,6 @@ textarea {
 }
 
 .button {
-  // -webkit-appearance: none;
   background: $green-link;
   border: 0;
   border-radius: 0;
@@ -126,8 +127,8 @@ textarea {
   text-transform: uppercase;
   transition: 1s ease;
 
-  &:hover,
-  &:focus {
+  &:focus,
+  &:hover {
     background: $green-dark;
   }
 }
@@ -148,7 +149,7 @@ textarea {
 }
 
 .tweet-image {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
+  box-shadow: 0 4px 8px 0 $shadow1, 0 6px 20px 0 $shadow2;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -161,5 +162,24 @@ textarea {
 
 .tweet-head {
   margin-top: 5px;
+  text-align: center;
+}
+
+.main-index {
+  background-color: $background-color;
+  background-image: url($link-back);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 500px;
+}
+
+.search-box {
+  width: 100%;
+}
+
+.header-main {
+  font-family: 'Indie Flower', cursive;
+  font-size: 100px;
+  font-weight: 600;
   text-align: center;
 }

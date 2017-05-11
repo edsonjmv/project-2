@@ -1,6 +1,6 @@
 /*jshint esversion: 6*/
 const mongoose = require("mongoose");
-const Schema   = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 const contestSchema = new Schema({
   name: String,
@@ -8,13 +8,15 @@ const contestSchema = new Schema({
   finalDate: Date,
   picPath: String,
   prize: String,
-  creator:{
+  creator: {
     type: Schema.Types.ObjectId,
-    ref:"User"
-   }
-  },
-  {
-  timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
+    ref: "User"
+  }
+}, {
+  timestamps: {
+    createdAt: "created_at",
+    updatedAt: "updated_at"
+  }
 });
 
 let Contest = mongoose.model("Contest", contestSchema);
