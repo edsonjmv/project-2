@@ -13,8 +13,9 @@
 <% }) %>
 </ul>
 
-<% tweets.statuses.forEach(function(tweet) {
-  if(tweet.entities.media != null ) { %>
+<%= console.log(tweets.statuses[0]) %>
+<% tweets.statuses.forEach(function(tweet) { %>
+  <% if(tweet.entities.media != null ) { %>
   <div class="col-xs-12 col-sm-6 col-lg-6 tweet-show">
     <div class='inside-box'>
       <img class="tweet-image" height="350" width="350" src="<%= tweet.entities.media[0].media_url %>" />

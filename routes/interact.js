@@ -75,10 +75,9 @@ interactRoutes.get('/:id', (req, res, next) => {
     if (err){ return next(err); }
     let hash = '#' + contest.hashtag;
       client.get('https://api.twitter.com/1.1/search/tweets.json', {q: hash, result_type: 'mixed', count: 100}, function(error, tweets, response) {
-        var status = tweets.statuses;
         var text = "";
         var newArray =[];
-        status.sort(function(a,b){
+        tweets.statuses.sort(function(a,b){
           return parseFloat(b.favorite_count) - parseFloat(a.favorite_count);
         });
         Group.find({contestId : contest._id})
