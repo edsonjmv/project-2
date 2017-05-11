@@ -1,17 +1,16 @@
 /*jshint esversion: 6*/
 const express = require('express');
 const session = require('express-session');
-const multer  = require('multer');
+const multer = require('multer');
 const User = require('../models/User');
 const Contest = require('../models/Contest');
 const upload = multer({ dest: './public/uploads/' });
 const mongoose = require('mongoose');
-const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
+const {ensureLoggedIn, ensureLoggedOut} = require('connect-ensure-login');
 
 const authorizeContest = require('../middleware/contest-authorization');
 
 const adminRoutes = express.Router();
-
 
 adminRoutes.get('/new-contests', ensureLoggedIn(), function(req, res, next) {
   res.render('new-contests');
@@ -32,18 +31,18 @@ adminRoutes.post('/new-contests', upload.single('photo'), (req, res, next) => {
     prize: prizeInput
   };
 
-    const contest = new Contest(contestSubmission);
+  const contest = new Contest(contestSubmission);
 
-    contest.save((err) => {
+  contest.save((err) => {
 
-      if (err) {
-        res.render('/', {
-          errorMessage: 'Something went wrong. Try again later.'
-        });
-        return;
-      }
-      res.redirect('/interact/dashboard');
-    });
+    if (err) {
+      res.render('/', {
+        errorMessage: 'Something went wrong. Try again later.'
+      });
+      return;
+    }
+    res.redirect('/interact/dashboard');
+  });
 });
 
 
@@ -51,7 +50,9 @@ adminRoutes.post('/:id/delete', (req, res, next) => {
   const id = req.params.id;
   console.log(id);
   Contest.findByIdAndRemove(id, (err, contest) => {
-    if (err){ return next(err); }
+    if (err) {
+      return next(err);
+    }
     return res.redirect('/interact/dashboard');
   });
 });

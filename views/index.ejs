@@ -1,10 +1,26 @@
-<br><br>
-<p> Welcome to <%= title %>. </p>
+    <div class="jumbotron main-index">
+      <div class="container">
+        <h2 class='header-main'>BOOST Traffic!</h2>
+        <p style="text-align: center;"><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+      </div>
+    </div>
 
-<br><br><br><br><br>
-<% if(user){ %>
-          <div>
-            <p>Hi <%= user.username %>. You are now logged in!</p>
+<div class="container">
+    <% if(user){ %>
+      <div>
+        <p>Hi
+          <%= user.username %>.</p>
+      </div>
+      <% } %>
+      </div>
 
-          </div>
-        <% } %>
+<div class="container search-cont">
+    <div class="col-lg-6 search-box">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search for...">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">Go!</button>
+        </span>
+      </div>
+    </div>
+</div>
