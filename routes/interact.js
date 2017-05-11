@@ -7,6 +7,8 @@ const upload = multer({ dest: './public/uploads/' });
 const mongoose = require('mongoose');
 const Contest = require('../models/Contest');
 const Twitter = require('twitter');
+const ensureLogin = require("connect-ensure-login");
+const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 require("dotenv").config();
 const TWITTER_CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY;
 const TWITTER_CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET;
@@ -20,7 +22,7 @@ const client = new Twitter({
   access_token_secret: TWITTER_ACCESS_TOKEN_SECRET
 });
 
-interactRoutes.get('/profile', function(req, res, next) {
+interactRoutes.get('/profile', ensureLoggedIn('/login'), function(req, res, next) {
   res.render('interact/profile', {
     user: req.user
   });
