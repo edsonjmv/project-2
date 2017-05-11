@@ -6,6 +6,7 @@ const User = require('../models/User');
 const upload = multer({ dest: './public/uploads/' });
 const mongoose = require('mongoose');
 const Contest = require('../models/Contest');
+const Group = require('../models/Group');
 const Twitter = require('twitter');
 const ensureLogin = require("connect-ensure-login");
 const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
@@ -50,30 +51,46 @@ interactRoutes.get('/dashboard', function(req, res, next) {
   }); // });
 });
 
-interactRoutes.get('/:id', (req, res, next) => {
-  Contest.findById(req.params.id).populate('_creator').exec((err, contest) => {
+interactRoutes.get('/participate/:id', (req,res, next)=>{
+  var contest = req.params.id;
+  var user = req.session.passport.user;
+  let group = {
+    contestId : contest,
+    userId : user
+  };
+  const groups = new Group(group);
+  groups.save((err) => {
     if (err) {
-      return next(err);
-    }
-    let hash = '#' + contest.hashtag;
-    client.get('https://api.twitter.com/1.1/search/tweets.json', {
-      q: hash,
-      result_type: 'mixed',
-      count: 100
-    }, function(error, tweets, response) {
-      var status = tweets.statuses;
-      var text = "";
-      var newArray = [];
-
-      status.sort(function(a, b) {
-        return parseFloat(b.favorite_count) - parseFloat(a.favorite_count);
+      res.render('/', {
+        errorMessage: 'Something went wrong. Try again later.'
       });
-      res.render('show', {
-        contest,
-        tweets
+      return;
+    }
+    res.redirect('/interact/'+ contest);
+  });
+});
+
+interactRoutes.get('/:id', (req, res, next) => {
+  Contest.findById(req.params.id).populate('_creator').exec( (err, contest) => {
+    if (err){ return next(err); }
+    let hash = '#' + contest.hashtag;
+      client.get('https://api.twitter.com/1.1/search/tweets.json', {q: hash, result_type: 'mixed', count: 100}, function(error, tweets, response) {
+        var status = tweets.statuses;
+        var text = "";
+        var newArray =[];
+        status.sort(function(a,b){
+          return parseFloat(b.favorite_count) - parseFloat(a.favorite_count);
+        });
+        Group.find({contestId : contest._id})
+        .populate('userId')
+        .populate('contestId')
+        .then(groups => {
+          let users = groups.map(g => g.userId);
+          res.render('show', {contest:contest, associatedUsers:users, tweets:tweets});
+        })
+        .catch(err => console.log(error));
       });
     });
   });
-});
 
 module.exports = interactRoutes;

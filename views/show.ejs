@@ -5,6 +5,14 @@
   </div>
 </div>
 
+<a href="participate/<%= contest._id %>" />Participate in this contest</a>
+
+<ul>
+<% associatedUsers.forEach(function(user){ %>
+  <li><%= user.username %></li>
+<% }) %>
+</ul>
+
 <% tweets.statuses.forEach(function(tweet) {
   if(tweet.entities.media != null ) { %>
   <div class="col-xs-12 col-sm-6 col-lg-6 tweet-show">

@@ -9,8 +9,10 @@ $gray: #a9a9a9;
 $shadow1: rgba(0, 0, 0, .2);
 $shadow2: rgba(0, 0, 0, .19);
 $light-blue: #29cce5;
-$link-back: ('https://d2k1ftgv7pobq7.cloudfront.net/meta/p/res/images/d84b3c6b1f07d701acb1a153002f7e6a/usecases-bg.jpg');
+$link-back: ('/../images/rocket-back.jpg');
 $link-red: #eb5a46;
+$twitter-color: #1da1f2;
+$transp-back: rgba(49, 89, 137, .6);
 
 body {
   background-color: $background-color;
@@ -137,7 +139,31 @@ textarea {
 
 .button-block {
   display: block;
-  width: 100%;
+  margin: 0 auto;
+  width: 80%;
+
+  &:hover {
+    border-radius: 5px;
+    display: block;
+    width: 100%;
+  }
+}
+
+.button-twitter {
+  background-color: $twitter-color;
+  border-radius: 5px;
+  display: block;
+  margin-top: 20px;
+  text-align: center;
+  width: 60%;
+
+  &:hover {
+    background-color: $twitter-color;
+  }
+
+  a {
+    color: $white;
+  }
 }
 
 .tweet-show {
@@ -168,8 +194,7 @@ textarea {
 }
 
 .main-index {
-  background-color: $background-color;
-  background-image: url($link-back);
+  background: linear-gradient(0deg, $transp-back, $transp-back), url($link-back);
   background-repeat: no-repeat;
   background-size: cover;
   height: 500px;
