@@ -52,11 +52,16 @@ interactRoutes.get('/dashboard', function(req, res, next) {
 interactRoutes.get('/:id', (req, res, next) => {
   Contest.findById(req.params.id).populate('_creator').exec( (err, contest) => {
     if (err){ return next(err); }
-    console.log("show contest");
-    console.log(contest);
-
-    let hash = contest.hashtag;
+    let hash = '#' + contest.hashtag;
       client.get('https://api.twitter.com/1.1/search/tweets.json', {q: hash, result_type: 'mixed', count: 100}, function(error, tweets, response) {
+        var status = tweets.statuses;
+        var text = "";
+        var newArray =[];
+
+        status.sort(function(a,b){
+          return parseFloat(b.favorite_count) - parseFloat(a.favorite_count);
+        })
+        console.log(status)
         res.render('show', {contest, tweets});
       });
   });

@@ -58,6 +58,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+
 passport.use(new LocalStrategy(
   function(username, password, done) {
     User.findOne({ username: username }, function (err, user) {
@@ -91,12 +92,22 @@ passport.use(new TwitterStrategy({
   }
 ));
 
+app.use((req, res, next) => {
+    if (typeof(req.user) !== "undefined") {
+        res.locals.userSignedIn = true;
+    } else {
+        res.locals.userSignedIn = false;
+    }
+    next();
+});
+
 app.use('/admin', adminRoutes);
 app.use('/', index);
 app.use('/users', users);
 app.use('/', authRoutes);
 app.use('/interact', interactRoutes);
 app.use('/', tweetRoutes);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

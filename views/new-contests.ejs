@@ -1,7 +1,7 @@
 <div class="form">
   <div id="new-contests">
     <h1>Create new contest!</h1>
-        <form action="/new-contests" method="post" enctype="multipart/form-data">
+        <form action="/admin/new-contests" method="post" enctype="multipart/form-data">
           <div class="field-wrap">
             <input type="text" placeholder="Group Name" name="name" />
           </div>
@@ -12,15 +12,14 @@
             <input type="text" placeholder="Prize" name="prize" />
           </div>
           <div class="field-wrap">
-            <input type="text" placeholder="Final Date" name="finalDate" />
+            <input type="date" placeholder="Final Date" name="finalDate" />
           </div>
           <div class="field-wrap">
             <input type="file" name="photo">
           </div>
           <div class="field-wrap">
-            <input type="submit" value="Save">
+            <input class="button button-block" type="submit" value="Save">
           </div>
-          <button class="button button-block" />Create</button>
         </form>
   </div>
 </div>
