@@ -101,6 +101,15 @@ passport.use(new TwitterStrategy({
   }
 ));
 
+app.use((req, res, next) => {
+  if (typeof(req.user) !== "undefined") {
+    res.locals.userSignedIn = true;
+  } else {
+    res.locals.userSignedIn = false;
+  }
+  next();
+});
+
 app.use('/admin', adminRoutes);
 app.use('/', index);
 app.use('/users', users);

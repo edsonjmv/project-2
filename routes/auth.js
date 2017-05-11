@@ -77,11 +77,11 @@ authRoutes.get('/auth/twitter/callback',
     failureRedirect: '/login'
   }));
 
-authRoutes.get("interact/profile", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("profile", {
-    user: req.user
-  });
-});
+// authRoutes.get("interact/profile", ensureLogin.ensureLoggedIn(), (req, res) => {
+//   res.render("profile", {
+//     user: req.user
+//   });
+// });
 
 authRoutes.get("/logout", ensureLoggedIn('auth/login'), (req, res) => {
   req.logout();
