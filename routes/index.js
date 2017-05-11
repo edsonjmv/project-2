@@ -1,16 +1,11 @@
-var express = require('express');
-var mongoose = require('mongoose');
-var Contest = require('../models/Contest');
-var router = express.Router();
+/*jshint esversion: 6*/
+const express = require('express');
+const mongoose = require('mongoose');
+const Contest = require('../models/Contest');
+const router = express.Router();
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
-  // Contest.find({},(err, contests) => {
-  // if(err){
-  //   return error;
-  // }
-  res.render('index', {user: req.user});
-  // })
+  res.render('index', { user: req.user });
 });
 
 module.exports = router;

@@ -3,16 +3,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const tweetSchema = new Schema({
-  creator:{
+  creator: {
     type: Schema.Types.ObjectId,
-    ref:"User"
+    ref: "User"
   },
   content: String,
   picPath: String,
   favorites: Number,
   retweets: Number
 });
-
 
 const Tweet = mongoose.model('Tweet', tweetSchema);
 
