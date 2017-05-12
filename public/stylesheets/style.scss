@@ -9,7 +9,7 @@ $gray: #a9a9a9;
 $shadow1: rgba(0, 0, 0, .2);
 $shadow2: rgba(0, 0, 0, .19);
 $light-blue: #29cce5;
-$link-back: ('/../images/rocket-back.jpg');
+$link-back: ('https://thisismybipolarlife.files.wordpress.com/2013/06/5974374402_887103b201_o.jpg');
 $link-red: #eb5a46;
 $twitter-color: #1da1f2;
 $transp-back: rgba(49, 89, 137, .6);
@@ -252,4 +252,13 @@ textarea {
 
 .go-to-button {
   border-radius: 20px;
+}
+
+.header-text {
+  margin-top: 50px;
+  text-align: center;
+
+  p {
+    margin-bottom: 50px;
+  }
 }
