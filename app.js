@@ -18,7 +18,7 @@ const flash = require("connect-flash");
 mongoose.connect('mongodb://localhost/project2');
 
 const index = require('./routes/index');
-const users = require('./routes/users');
+// const users = require('./routes/users');
 const authRoutes = require('./routes/auth');
 const interactRoutes = require('./routes/interact');
 const adminRoutes = require('./routes/admin');
@@ -102,17 +102,13 @@ passport.use(new TwitterStrategy({
 ));
 
 app.use((req, res, next) => {
-  if (typeof(req.user) !== "undefined") {
-    res.locals.userSignedIn = true;
-  } else {
-    res.locals.userSignedIn = false;
-  }
+  res.locals.user = req.user;
   next();
 });
 
 app.use('/admin', adminRoutes);
 app.use('/', index);
-app.use('/users', users);
+// app.use('/users', users);
 app.use('/', authRoutes);
 app.use('/interact', interactRoutes);
 

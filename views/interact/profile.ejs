@@ -1,7 +1,16 @@
-<div class="container">
-<% if(user){ %>
-  <div>
-    <p>Profile of <%= user.username %></p>
+
+<div class="container profile-box">
+  <div class='form'>
+    <section class='image-prof'>
+      <img height="300" width="300" src="http://41.76.211.172/com.tailorapp.spring/resources/img/no-profile-img.jpg" />
+    </section>
+      <p>Username: <%= user.username %></p>
+      <p>First Name: </p>
+      <p>Last name: </p>
+      <p>email: </p>
+      <!-- <form action="/interact/edit-profile" method="post"> -->
+        <a href='/' class="button button-block" style='text-align: center;' />Edit profile</a>
+      <!-- </form> -->
+
   </div>
-<% } %>
 </div>

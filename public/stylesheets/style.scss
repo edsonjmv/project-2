@@ -9,12 +9,16 @@ $gray: #a9a9a9;
 $shadow1: rgba(0, 0, 0, .2);
 $shadow2: rgba(0, 0, 0, .19);
 $light-blue: #29cce5;
-$link-back: ('https://d2k1ftgv7pobq7.cloudfront.net/meta/p/res/images/d84b3c6b1f07d701acb1a153002f7e6a/usecases-bg.jpg');
+$link-back: ('https://thisismybipolarlife.files.wordpress.com/2013/06/5974374402_887103b201_o.jpg');
+$link-red: #eb5a46;
+$twitter-color: #1da1f2;
+$transp-back: rgba(49, 89, 137, .6);
 
 body {
   background-color: $background-color;
   color: $white;
   font: 14px 'Titillium Web', Helvetica, Arial, sans-serif;
+  font-family: 'Muli', sans-serif;
   padding-top: 50px;
 }
 
@@ -135,17 +139,40 @@ textarea {
 
 .button-block {
   display: block;
-  width: 100%;
+  margin: 0 auto;
+  width: 80%;
+
+  &:hover {
+    border-radius: 5px;
+    display: block;
+    width: 100%;
+  }
+}
+
+.button-twitter {
+  background-color: $twitter-color;
+  border-radius: 5px;
+  display: block;
+  margin-top: 20px;
+  text-align: center;
+  width: 60%;
+
+  &:hover {
+    background-color: $twitter-color;
+  }
+
+  a {
+    color: $white;
+  }
 }
 
 .tweet-show {
-  height: 400px;
+  height: 550px;
 }
 
 .inside-box {
-  border: 1px solid $gray;
   border-radius: 20px;
-  height: 386px;
+  height: 520px;
 }
 
 .tweet-image {
@@ -156,21 +183,21 @@ textarea {
 }
 
 .tweet-favs {
-  margin-top: 30px;
+  margin-top: 5px;
   text-align: center;
 }
 
 .tweet-head {
   margin-top: 5px;
+  padding: 10px;
   text-align: center;
 }
 
 .main-index {
-  background-color: $background-color;
-  background-image: url($link-back);
+  background: linear-gradient(0deg, $transp-back, $transp-back), url($link-back);
   background-repeat: no-repeat;
   background-size: cover;
-  height: 500px;
+  height: 600px;
 }
 
 .search-box {
@@ -182,4 +209,56 @@ textarea {
   font-size: 100px;
   font-weight: 600;
   text-align: center;
+}
+
+.profile-box {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.image-prof {
+  height: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 300px;
+}
+
+.head-contest {
+  height: 50px;
+  padding: 5px;
+}
+
+.outside-contest {
+  height: 430px;
+  margin-bottom: 30px;
+}
+
+.inside-contest {
+  border-radius: 20px;
+  height: 410px;
+  padding-top: 10px;
+  text-align: center;
+}
+
+.contest-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.trash {
+  float: right;
+}
+
+.go-to-button {
+  border-radius: 20px;
+}
+
+.header-text {
+  margin-top: 50px;
+  text-align: center;
+
+  p {
+    margin-bottom: 50px;
+  }
 }

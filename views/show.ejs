@@ -1,24 +1,29 @@
 <div class="container">
 <div class="container constest-container">
   <div class="row">
-    <h1><%= contest.name %></h1>
+    <h1 style='margin-top: 20px;'>#<%= contest.hashtag %></h1>
   </div>
 </div>
 
-<h3>Tweets</h3>
+<a href="participate/<%= contest._id %>" />Participate in this contest</a>
 
-<% tweets.statuses.forEach(function(tweet) {
-  if(tweet.entities.media != null ) { %>
-  <div class="col-xs-12 col-sm-6 col-lg-4 tweet-show">
+<ul>
+<% associatedUsers.forEach(function(user){ %>
+  <li><%= user.username %></li>
+<% }) %>
+</ul>
+
+<% tweets.statuses.forEach(function(tweet) { %>
+  <% if(tweet.entities.media != null ) { %>
+  <div class="col-xs-12 col-sm-6 col-lg-6 tweet-show">
     <div class='inside-box'>
+      <img class="tweet-image" height="350" width="350" src="<%= tweet.entities.media[0].media_url %>" />
       <section class="tweet-head" style='height:100px;'>
         <p>User: <%= tweet.user.screen_name %></p>
         <p><%= tweet.text %></p>
       </section>
-      <img class="tweet-image" height="200" width="200" src="<%= tweet.entities.media[0].media_url %>" />
       <div class='tweet-favs'>
-        <p>Favorites: <%= tweet.favorite_count%></p>
-        <p>Retweets: <%= tweet.retweet_count%></p>
+        <p style="font-size: 30px;">Favorites: <%= tweet.favorite_count%></p>
       </div>
     </div>
   </div>

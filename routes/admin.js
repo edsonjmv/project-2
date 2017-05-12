@@ -4,9 +4,11 @@ const session = require('express-session');
 const multer = require('multer');
 const User = require('../models/User');
 const Contest = require('../models/Contest');
+const Group = require('../models/Group');
 const upload = multer({ dest: './public/uploads/' });
 const mongoose = require('mongoose');
-const {ensureLoggedIn, ensureLoggedOut} = require('connect-ensure-login');
+const ensureLogin = require("connect-ensure-login");
+const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 
 const authorizeContest = require('../middleware/contest-authorization');
 

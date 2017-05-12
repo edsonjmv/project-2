@@ -1,15 +1,14 @@
 <div class="container">
-<h3>Dashboard</h3>
-
+  <h1 style='margin-top: 20px;'>Contests</h1>
 <% contests.forEach(function(contest) { %>
-  <div class="col-md-4">
-    <a href="<%= contest._id %>">Go to this contest</a>
-    <p>Name: <%= contest.name %></p>
-    <p>Hashtag: <%= contest.hashtag %></p>
-    <img width="300" src="<%= contest.picPath %>" />
-    <form action="/admin/<%= contest._id %>/delete" method="POST">
-      <button style="color: black;" type="submit" class="label-danger">Delete Contest <span class="glyphicon glyphicon-trash"></span></button>
-    </form>
+  <div class="col-xs-12 col-sm-6 col-lg-4 outside-contest">
+    <div class='inside-contest'>
+        <p style='font-size: 30px'><%= contest.name %></p>
+        <p style='font-size: 20px'>#<%= contest.hashtag %></p>
+        <img class='contest-image' width="245" height="220" src="<%= contest.picPath %>" />
+        <br>
+        <a class='button button-block go-to-button' href="<%= contest._id %>">Go to this contest</a>
+    </div>
   </div>
 <% }); %>
 </div>
