@@ -1,0 +1,31 @@
+<div class="container">
+<div class="container constest-container">
+  <div class="row">
+    <h1 style='margin-top: 20px;'>#<%= contest.hashtag %></h1>
+  </div>
+</div>
+
+<a href="participate/<%= contest._id %>" />Participate in this contest</a>
+
+<ul>
+<% associatedUsers.forEach(function(user){ %>
+  <li><%= user.username %></li>
+<% }) %>
+</ul>
+
+<% tweets.statuses.forEach(function(tweet) { %>
+  <% if(tweet.entities.media != null ) { %>
+  <div class="col-xs-12 col-sm-6 col-lg-6 tweet-show">
+    <div class='inside-box'>
+      <img class="tweet-image" height="350" width="350" src="<%= tweet.entities.media[0].media_url %>" />
+      <section class="tweet-head" style='height:100px;'>
+        <p>User: <%= tweet.user.screen_name %></p>
+        <p><%= tweet.text %></p>
+      </section>
+      <div class='tweet-favs'>
+        <p style="font-size: 30px;">Favorites: <%= tweet.favorite_count%></p>
+      </div>
+    </div>
+  </div>
+<% }}) %>
+</div>

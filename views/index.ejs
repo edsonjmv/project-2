@@ -1,6 +1,33 @@
-<br><br>
-<p> Welcome to <%= title %>. </p>
+    <div class="jumbotron main-index">
+      <div class="container">
+        <h2 class='header-main'>BOOST Traffic!</h2>
+        <section class='header-text'>
+          <p style='font-size: 2.5vw;'><b>Do you want to Boost your marketing contents for FREE?</b></p>
 
-<% if (isUserLoggedIn) { %>
-  <p> Hello, <%= currentUserInfo.firstName + ' ' + currentUserInfo.lastName %>. </p>
-<% } %>
+          <p style='font-size: 2.2vw;'>Create your own contest, ask people to upload a photo in Twitter with a given hashtag, give them an award and publish the content on your social pages!</p>
+
+          <p style='font-size: 2.5vw;'>Just simple as this!</p>
+        </section>
+
+      </div>
+    </div>
+
+<div class="container">
+    <% if(user){ %>
+      <div>
+        <p>Hi
+          <%= user.username %>.</p>
+      </div>
+      <% } %>
+      </div>
+
+<div class="container search-cont">
+    <div class="col-lg-6 search-box">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search for...">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">Go!</button>
+        </span>
+      </div>
+    </div>
+</div>

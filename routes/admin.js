@@ -1,16 +1,20 @@
 /*jshint esversion: 6*/
 const express = require('express');
 const session = require('express-session');
-const multer  = require('multer');
+const multer = require('multer');
 const User = require('../models/User');
 const Contest = require('../models/Contest');
-const Picture = require('../models/Picture');
+const Group = require('../models/Group');
 const upload = multer({ dest: './public/uploads/' });
 const mongoose = require('mongoose');
+const ensureLogin = require("connect-ensure-login");
+const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
+
+const authorizeContest = require('../middleware/contest-authorization');
 
 const adminRoutes = express.Router();
 
-adminRoutes.get('/new-contests', function(req, res, next) {
+adminRoutes.get('/new-contests', ensureLoggedIn(), function(req, res, next) {
   res.render('new-contests');
 });
 
@@ -20,7 +24,7 @@ adminRoutes.post('/new-contests', upload.single('photo'), (req, res, next) => {
   const dateInput = req.body.finalDate;
   const picInput = `/uploads/${req.file.filename}`;
   const prizeInput = req.body.prize;
-
+  console.log('log');
   const contestSubmission = {
     name: nameInput,
     hashtag: hashtagInput,
@@ -29,17 +33,29 @@ adminRoutes.post('/new-contests', upload.single('photo'), (req, res, next) => {
     prize: prizeInput
   };
 
-    const constest = new Contest(contestSubmission);
+  const contest = new Contest(contestSubmission);
 
-    constest.save((err) => {
-      if (err) {
-        res.render('/', {
-          errorMessage: 'Something went wrong. Try again later.'
-        });
-        return;
-      }
-      res.redirect('/');
-    });
+  contest.save((err) => {
+
+    if (err) {
+      res.render('/', {
+        errorMessage: 'Something went wrong. Try again later.'
+      });
+      return;
+    }
+    res.redirect('/interact/dashboard');
+  });
+});
+
+adminRoutes.post('/:id/delete', (req, res, next) => {
+  const id = req.params.id;
+  console.log(id);
+  Contest.findByIdAndRemove(id, (err, contest) => {
+    if (err) {
+      return next(err);
+    }
+    return res.redirect('/interact/dashboard');
+  });
 });
 
 module.exports = adminRoutes;

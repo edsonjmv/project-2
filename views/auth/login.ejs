@@ -1,27 +1,24 @@
-<div class="form">
-  <div id="login">
-    <h1>Welcome Back!</h1>
-    <% if (errorMessage) { %>
-      <p class="error-message" style="text-align: center">
-        <%= errorMessage %>
+<div class="container">
+  <div class="form">
+    <div id="login">
+      <h1>Welcome Back!</h1>
+
+      <form action="/login" method="post">
+        <div class="field-wrap">
+          <input type="text" placeholder="username" name="username" />
+        </div>
+        <div class="field-wrap">
+          <input type="password" placeholder="password" name="password" />
+        </div>
+        <button class="button button-block" />Log In</button>
+      </form>
+
+      <span class="button-twitter button button-block"><a href="/auth/twitter">Sign in with <b>Twitter</b></a></span>
+      <br>
+      <p style='float: right;'>
+        Create an account:
+        <a href="/signup">Sign up.</a>
       </p>
-      <% } %>
-        <form action="/login" method="post">
-          <div class="field-wrap">
-            <input type="email" placeholder="email" name="email" />
-          </div>
-          <div class="field-wrap">
-            <input type="password" placeholder="password" name="password" />
-          </div>
-          <button class="button button-block" />Log In</button>
-        </form>
-        <br>
-        <p style='float: right;'>
-          Create an account:
-          <a href="/signup">
-            Sign up.
-          </a>
-        </p>
+    </div>
   </div>
 </div>
-<!-- /form -->

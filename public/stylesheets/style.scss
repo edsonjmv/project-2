@@ -1,17 +1,25 @@
-// @import 'main';
-// @import 'form';
-
 $background-color: #315989;
 $white: #fff;
 $green-link: #1ab188;
 $form-back: #13232f;
 $text-back: #a0b3b0;
 $green-dark: darken($green-link, 10%);
+$black: #000;
+$gray: #a9a9a9;
+$shadow1: rgba(0, 0, 0, .2);
+$shadow2: rgba(0, 0, 0, .19);
+$light-blue: #29cce5;
+$link-back: ('https://thisismybipolarlife.files.wordpress.com/2013/06/5974374402_887103b201_o.jpg');
+$link-red: #eb5a46;
+$twitter-color: #1da1f2;
+$transp-back: rgba(49, 89, 137, .6);
 
 body {
   background-color: $background-color;
   color: $white;
   font: 14px 'Titillium Web', Helvetica, Arial, sans-serif;
+  font-family: 'Muli', sans-serif;
+  padding-top: 50px;
 }
 
 * {
@@ -111,7 +119,6 @@ textarea {
 }
 
 .button {
-  // -webkit-appearance: none;
   background: $green-link;
   border: 0;
   border-radius: 0;
@@ -124,13 +131,134 @@ textarea {
   text-transform: uppercase;
   transition: 1s ease;
 
-  &:hover,
-  &:focus {
+  &:focus,
+  &:hover {
     background: $green-dark;
   }
 }
 
 .button-block {
   display: block;
+  margin: 0 auto;
+  width: 80%;
+
+  &:hover {
+    border-radius: 5px;
+    display: block;
+    width: 100%;
+  }
+}
+
+.button-twitter {
+  background-color: $twitter-color;
+  border-radius: 5px;
+  display: block;
+  margin-top: 20px;
+  text-align: center;
+  width: 60%;
+
+  &:hover {
+    background-color: $twitter-color;
+  }
+
+  a {
+    color: $white;
+  }
+}
+
+.tweet-show {
+  height: 550px;
+}
+
+.inside-box {
+  border-radius: 20px;
+  height: 520px;
+}
+
+.tweet-image {
+  box-shadow: 0 4px 8px 0 $shadow1, 0 6px 20px 0 $shadow2;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tweet-favs {
+  margin-top: 5px;
+  text-align: center;
+}
+
+.tweet-head {
+  margin-top: 5px;
+  padding: 10px;
+  text-align: center;
+}
+
+.main-index {
+  background: linear-gradient(0deg, $transp-back, $transp-back), url($link-back);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 600px;
+}
+
+.search-box {
   width: 100%;
+}
+
+.header-main {
+  font-family: 'Indie Flower', cursive;
+  font-size: 100px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.profile-box {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.image-prof {
+  height: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 300px;
+}
+
+.head-contest {
+  height: 50px;
+  padding: 5px;
+}
+
+.outside-contest {
+  height: 430px;
+  margin-bottom: 30px;
+}
+
+.inside-contest {
+  border-radius: 20px;
+  height: 410px;
+  padding-top: 10px;
+  text-align: center;
+}
+
+.contest-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.trash {
+  float: right;
+}
+
+.go-to-button {
+  border-radius: 20px;
+}
+
+.header-text {
+  margin-top: 50px;
+  text-align: center;
+
+  p {
+    margin-bottom: 50px;
+  }
 }

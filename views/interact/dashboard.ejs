@@ -1,8 +1,14 @@
-<h3>Dashboard</h3>
-
-<section>
-  <% pictures.forEach(function(picture) { %>
-    <h3><%= picture.name %></h3>
-    <img width="300" src="<%= picture.pic_path %>" alt="<%= picture.pic_name %>" />
-  <% })%>
-</section>
+<div class="container">
+  <h1 style='margin-top: 20px;'>Contests</h1>
+<% contests.forEach(function(contest) { %>
+  <div class="col-xs-12 col-sm-6 col-lg-4 outside-contest">
+    <div class='inside-contest'>
+        <p style='font-size: 30px'><%= contest.name %></p>
+        <p style='font-size: 20px'>#<%= contest.hashtag %></p>
+        <img class='contest-image' width="245" height="220" src="<%= contest.picPath %>" />
+        <br>
+        <a class='button button-block go-to-button' href="<%= contest._id %>">Go to this contest</a>
+    </div>
+  </div>
+<% }); %>
+</div>

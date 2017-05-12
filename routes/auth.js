@@ -1,123 +1,92 @@
 /*jshint esversion: 6*/
-const express = require('express');
-const bcrypt = require('bcrypt');
-const bcryptSalt = 10;
-const User = require('../models/User');
+const express = require("express");
 const authRoutes = express.Router();
+const User = require("../models/User");
+const passport = require("passport");
+const bcrypt = require("bcrypt");
+const bcryptSalt = 10;
+const ensureLogin = require("connect-ensure-login");
+const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 const session = require('express-session');
 const mongoose = require('mongoose');
+const authorizeContest = require('../middleware/contest-authorization');
 
-
-authRoutes.get('/signup', (req, res, next) => {
-  res.render('auth/signup', {
-    errorMessage: ''
-  });
+authRoutes.get("/signup", (req, res, next) => {
+  res.render("auth/signup");
 });
 
-authRoutes.post('/signup', (req, res, next) => {
-  const firstNameInput = req.body.firstName;
-  const lastNameInput = req.body.lastName;
-  const emailInput = req.body.email;
-  const passwordInput = req.body.password;
+authRoutes.post("/signup", (req, res, next) => {
+  const username = req.body.username;
+  const password = req.body.password;
 
-  if (emailInput === '' || passwordInput === '') {
-    res.render('auth/signup', {
-      errorMessage: 'Enter both email and password to sign up.'
+  if (username === "" || password === "") {
+    res.render("auth/signup", {
+      message: "Indicate username and password"
     });
     return;
   }
 
   User.findOne({
-    email: emailInput
-  }, '_id', (err, existingUser) => {
-    if (err) {
-      next(err);
-      return;
-    }
-
-    if (existingUser !== null) {
-      res.render('auth/signup', {
-        errorMessage: `The email ${emailInput} is already in use.`
+    username
+  }, "username", (err, user) => {
+    if (user !== null) {
+      res.render("auth/signup", {
+        message: "The username already exists"
       });
       return;
     }
 
     const salt = bcrypt.genSaltSync(bcryptSalt);
-    const hashedPass = bcrypt.hashSync(passwordInput, salt);
+    const hashPass = bcrypt.hashSync(password, salt);
 
-    const userSubmission = {
-      firstName: firstNameInput,
-      lastName: lastNameInput,
-      email: emailInput,
-      password: hashedPass
-    };
+    const newUser = User({
+      username: username,
+      password: hashPass
+    });
 
-    const user = new User(userSubmission);
-
-    user.save((err) => {
+    newUser.save((err) => {
       if (err) {
-        res.render('auth/signup', {
-          errorMessage: 'Something went wrong. Try again later.'
+        res.render("auth/signup", {
+          message: "Something went wrong"
         });
-        return;
+      } else {
+        res.redirect("/");
       }
-      res.redirect('/login');
     });
   });
 });
 
-authRoutes.get('/login', (req, res, next) => {
-  res.render('auth/login', {
-    errorMessage: ''
+authRoutes.get("/login", ensureLoggedOut(), (req, res, next) => {
+  res.render("auth/login", {
+    "message": req.flash("error")
   });
 });
 
-authRoutes.post('/login', (req, res, next) => {
-  const emailInput = req.body.email;
-  const passwordInput = req.body.password;
+authRoutes.post("/login", ensureLoggedOut(), passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}));
 
-  if (emailInput === '' || passwordInput === '') {
-    res.render('auth/login', {
-      errorMessage: 'Enter both email and password to log in.'
-    });
-    return;
-  }
+authRoutes.get('/auth/twitter', passport.authenticate('twitter'));
 
-  User.findOne({
-    email: emailInput
-  }, (err, user) => {
-    if (err || user === null) {
-      res.render('auth/login', {
-        errorMessage: `There isn't an account with email ${emailInput}.`
-      });
-      return;
-    }
+authRoutes.get('/auth/twitter/callback',
+  passport.authenticate('twitter', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+  }));
 
-    if (!bcrypt.compareSync(passwordInput, user.password)) {
-      res.render('auth/login', {
-        errorMessage: 'Invalid password.'
-      });
-      return;
-    }
+// authRoutes.get("interact/profile", ensureLogin.ensureLoggedIn(), (req, res) => {
+//   res.render("profile", {
+//     user: req.user
+//   });
+// });
 
-    req.session.currentUser = user;
-    res.redirect('/');
-  });
-});
+authRoutes.get("/logout", ensureLoggedIn('auth/login'), (req, res) => {
+  req.logout();
+  res.redirect("/login");
 
-authRoutes.get('/logout', (req, res, next) => {
-  if (!req.session.currentUser) {
-    res.redirect('/');
-    return;
-  }
-
-  req.session.destroy((err) => {
-    if (err) {
-      next(err);
-      return;
-    }
-    res.redirect('/');
-  });
 });
 
 module.exports = authRoutes;
