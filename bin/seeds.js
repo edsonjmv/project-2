@@ -11,11 +11,11 @@ const user = [
     password: 'test'
   }
 ];
-User.create(products, (err, docs) => {
+User.create(user, (err, docs) => {
   if (err) {
     throw err;
   }
-  docs.forEach((product) => {
+  docs.forEach((user) => {
     console.log(product.name);
   });
   mongoose.connection.close();
@@ -41,19 +41,19 @@ Contest.create(contest, (err, docs) => {
   mongoose.connection.close();
 });
 
-const group = [
-  {
-    contestId: 'Nombre',
-    userId: 'test'
-
-  }
-];
-Group.create(group, (err, docs) => {
-  if (err) {
-    throw err;
-  }
-  docs.forEach((product) => {
-    console.log(product.name);
-  });
-  mongoose.connection.close();
-});
+// const group = [
+//   {
+//     contestId: 'Nombre',
+//     userId: 'test'
+//
+//   }
+// ];
+// Group.create(group, (err, docs) => {
+//   if (err) {
+//     throw err;
+//   }
+//   docs.forEach((product) => {
+//     console.log(product.name);
+//   });
+//   mongoose.connection.close();
+// });
