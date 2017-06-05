@@ -15,7 +15,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const User = require("./models/User.js");
 const flash = require("connect-flash");
 
-mongoose.connect('mongodb://localhost/project2');
+require('./config/database');
 
 const index = require('./routes/index');
 // const users = require('./routes/users');
